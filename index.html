@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Inventário de Materiais</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
+        body{
+            background:#f4f6f9;
+        }
+    
+        .topo{
+            background:#0d6efd;
+            color:white;
+            padding:20px;
+            text-align:center;
+            margin-bottom:20px;
+        }
+    
+        .card{
+            border:none;
+            border-radius:15px;
+        }
+    
+        #btnSalvar{
+            height:55px;
+            font-size:18px;
+            font-weight:bold;
+        }
+    
+        #barra{
+            display:none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="topo">
+
+        <h3>📦 Inventário de Materiais</h3>
+
+        <p class="mb-0">
+            Controle Individual de Equipamentos
+        </p>
+
+    </div>
+
+    <div class="container">
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <label class="form-label">
+                    Matrícula
+                </label>
+
+                <div class="input-group">
+
+                    <input type="text" id="matricula" class="form-control" placeholder="Digite sua matrícula">
+
+                    <button class="btn btn-primary" onclick="buscar()">
+
+                        Buscar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="dados" style="display:none;">
+
+            <input type="hidden" id="id">
+
+            <div class="card shadow-sm mb-3">
+
+                <div class="card-body">
+
+                    <h5>👤 Técnico</h5>
+
+                   <div  class="alert alert-primary mb-3"   id="nomeTecnicoCard">
+                     </div>
+                     
+                     <button
+                         id="btnEditar"
+                         class="btn btn-warning w-100"
+                         onclick="habilitarEdicao()">
+                     
+                         ✏️ Habilitar Edição
+                     
+                     </button>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm mb-3">
+
+                        <div class="card-header">
+                            📡 Equipamentos
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    HGU 5
+                                </label>
+
+                                <input type="number" id="hgu5" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    HGU 6
+                                </label>
+
+                                <input type="number" id="hgu6" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Decoder ETH
+                                </label>
+
+                                <input type="number" id="decoderEth" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Decoder WIFI
+                                </label>
+
+                                <input type="number" id="decoderWifi" class="form-control"disabled>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm mb-3">
+
+                        <div class="card-header">
+                            📦 Materiais
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Conector Interno
+                                </label>
+
+                                <input type="number" id="conectorInterno" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Conector Externo
+                                </label>
+
+                                <input type="number" id="conectorExterno" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Fibra 100m
+                                </label>
+
+                                <input type="number" id="fibra100" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Fibra 220m
+                                </label>
+
+                                <input type="number" id="fibra220" class="form-control"disabled>
+
+                            </div>
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Fibra 300m
+                                </label>
+
+                                <input type="number" id="fibra300" class="form-control"disabled>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Fibra 500m
+                                </label>
+
+                                <input type="number" id="fibra500" class="form-control"disabled>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button id="btnSalvar" class="btn btn-success w-100" onclick="salvar()">
+
+                💾 Salvar Inventário
+
+            </button>
+
+            <div class="progress mt-3" id="barra">
+
+                <div id="progresso" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const URL_BUSCAR =
+        "https://default9744600e3e04492ebaa125ec245c6f.10.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/17748dce322046cc9a49bb1defb8761a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=gsVIhsjOYBqmhWObL9rfGr66yFBnWWaVSzepJkxgXQg";
+    
+        const URL_SALVAR =
+        "https://default9744600e3e04492ebaa125ec245c6f.10.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/3abf89028c8140f39ea617124d7962cf/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SX9TQEVUffLF72ZRjIKbBVwS3SnZUroaaHUVNc1Tfh8";
+    
+        async function buscar(){
+    
+        let matricula =
+        document.getElementById("matricula").value.trim();
+    
+        if(!matricula){
+    
+        alert("Informe a matrícula");
+    
+        return;
+    
+        }
+    
+        const resposta =
+        await fetch(URL_BUSCAR,{
+    
+        method:"POST",
+    
+        headers:{
+        "Content-Type":"application/json"
+        },
+    
+        body:JSON.stringify({
+        matricula:matricula
+        })
+    
+        });
+    
+        const dados =
+        await resposta.json();
+    
+        document.getElementById("dados").style.display =
+        "block";
+    
+        document.getElementById("id").value =
+        dados.id;
+    
+        document.getElementById("nomeTecnicoCard").innerHTML =
+        `
+        <strong>${dados.tecnico}</strong>
+        <br>
+        Matrícula: ${dados.matricula}
+        `;
+    
+        document.getElementById("hgu5").value =
+        dados.hgu5;
+    
+        document.getElementById("hgu6").value =
+        dados.hgu6;
+    
+        document.getElementById("decoderEth").value =
+        dados.decoderEth;
+    
+        document.getElementById("decoderWifi").value =
+        dados.decoderWifi;
+    
+        document.getElementById("conectorInterno").value =
+        dados.conectorInterno;
+    
+        document.getElementById("conectorExterno").value =
+        dados.conectorExterno;
+    
+        document.getElementById("fibra100").value =
+        dados.fibra100;
+    
+        document.getElementById("fibra220").value =
+        dados.fibra220;
+    
+        document.getElementById("fibra300").value =
+        dados.fibra300;
+    
+        document.getElementById("fibra500").value =
+        dados.fibra500;
+    
+        }
+    
+        async function salvar(){
+    
+        const btn =
+        document.getElementById("btnSalvar");
+    
+        btn.disabled = true;
+    
+        document.getElementById("barra").style.display =
+        "block";
+    
+        let progresso = 0;
+    
+        const timer = setInterval(()=>{
+    
+        progresso += 10;
+    
+        if(progresso > 95){
+    
+        progresso = 95;
+    
+        }
+    
+        document.getElementById("progresso").style.width =
+        progresso + "%";
+    
+        },300);
+    
+        const dados = {
+    
+        id:
+        document.getElementById("id").value,
+    
+        matricula:
+        document.getElementById("matricula").value,
+    
+        tecnico:
+        document.getElementById("nomeTecnicoCard")
+        .innerText
+        .split("\n")[0],
+    
+        conectorInterno:
+        document.getElementById("conectorInterno").value,
+    
+        conectorExterno:
+        document.getElementById("conectorExterno").value,
+    
+        fibra100:
+        document.getElementById("fibra100").value,
+    
+        fibra220:
+        document.getElementById("fibra220").value,
+    
+        fibra300:
+        document.getElementById("fibra300").value,
+    
+        fibra500:
+        document.getElementById("fibra500").value,
+    
+        hgu5:
+        document.getElementById("hgu5").value,
+    
+        hgu6:
+        document.getElementById("hgu6").value,
+    
+        decoderEth:
+        document.getElementById("decoderEth").value,
+    
+        decoderWifi:
+        document.getElementById("decoderWifi").value
+    
+        };
+    
+        const resposta =
+        await fetch(URL_SALVAR,{
+    
+        method:"POST",
+    
+        headers:{
+        "Content-Type":"application/json"
+        },
+    
+        body:JSON.stringify(dados)
+    
+        });
+    
+        const retorno =
+        await resposta.json();
+    
+        clearInterval(timer);
+    
+        document.getElementById("progresso").style.width =
+        "100%";
+    
+        alert(retorno.mensagem);
+    
+        location.reload();
+    
+        }
+        function habilitarEdicao() {
+
+    const campos = [
+        "hgu5",
+        "hgu6",
+        "decoderEth",
+        "decoderWifi",
+        "conectorInterno",
+        "conectorExterno",
+        "fibra100",
+        "fibra220",
+        "fibra300",
+        "fibra500"
+    ];
+
+    campos.forEach(campo => {
+        document.getElementById(campo).disabled = false;
+    });
+
+    document.getElementById("btnEditar").innerHTML =
+        "✅ Edição Habilitada";
+
+    document.getElementById("btnEditar")
+        .classList.remove("btn-warning");
+
+    document.getElementById("btnEditar")
+        .classList.add("btn-success");
+}
+    </script>
+
+</body>
+
+</html>
