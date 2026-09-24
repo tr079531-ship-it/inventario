@@ -157,6 +157,16 @@
                                 <input type="number" id="decoderWifi" class="form-control"disabled>
 
                             </div>
+                                                        <div class="mb-3">
+
+                                <label class="form-label">
+                                    Base Port
+                                    
+                                </label>
+
+                                <input type="number" id="basePort" class="form-control"disabled>
+
+                            </div>
 
                         </div>
 
@@ -320,6 +330,8 @@
     
         document.getElementById("decoderWifi").value =
         dados.decoderWifi;
+             document.getElementById("basePort").value =
+        dados.basePort;
     
         document.getElementById("conectorInterno").value =
         dados.conectorInterno;
@@ -410,6 +422,10 @@
     
         decoderWifi:
         document.getElementById("decoderWifi").value
+            ]
+        basePort:
+        document.getElementById("basePort").value
+    
     
         };
     
@@ -446,6 +462,7 @@
         "hgu6",
         "decoderEth",
         "decoderWifi",
+        "basePort",
         "conectorInterno",
         "conectorExterno",
         "fibra100",
